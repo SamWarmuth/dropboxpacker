@@ -1,13 +1,20 @@
-number_of_boxies = gets.to_i
-return "Not an int" if total_boxes.nil?
-puts "Boxes: #{total_boxes}"
-boxes = []
-total_area = 0
-number_of_boxes.times do
-  a , b = gets.split(" ").map{|n| n.to_i}
-  return "input error" if (a.nil? || b.nil?)
-  area = a*b
-  puts "Box: #{a} x #{b} - #{area}u : #{total_area += area}u total"
-  boxes << [a,b]
+class Dropbox
+  attr_accessor :boxes
+  attr_reader :vertices
+  attr_accessor :dropbox
+  def initialize
+    @boxes = []
+    @dropbox = Array.new(0, [])
+  end
+  def calculate_best_fill
+    db.boxes.uniq!
+    db.boxes = db.boxes.sort_by{|box| box[0]*-1}
+    @boxes.each_with_index do |box, i|
+      @vertices[i] = [i*10, 0]
+    end
+  end
+  def area
+    return 0 if @boxes.nil?
+    return @boxes.inject(0){|area, box| area + box[0]*box[1]}
+  end
 end
-inspect boxes

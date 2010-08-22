@@ -1,0 +1,3 @@
+-@dropbox.boxes.each_with_index do |box, i|
+  -vertex = @dropbox.vertices[i]
+  .box{:style => "top: #{vertex[0]}; :left => #{vertex[1]}; width: #{box.width}; height: #{box.height}"}= i
