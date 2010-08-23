@@ -1,27 +1,11 @@
-.pack{:style => "float: left; width: 250px; height: 400px; margin: 0; padding: 20px; background: #F8F8F8"}
-  %h1 Pack a dropbox
-  
-  
-  %textarea#box-input{:rows => 10, :cols => 10}
+.pack{:style => "float: left; width: 80%; height: 80px; margin-left: 10%; padding: 20px; background: #F8F8F8; text-align: center"}
+  %h1{:style => 'display: inline'} Pack a dropbox
+  %textarea#box-input{:rows => 5, :cols => 10, :style => 'display: inline; vertical-align: top; margin-left: 30px'}
     -100.times do
       = (rand(100)+1).to_s + " " + (rand(100)+1).to_s
-      
-  .type
-    %label Pack Type
-    %select#pack-type{:name => "type"}
-      %option{:value => "x_stack"} X Stack
-      %option{:value => "y_stack"} Y Stack
-      %option{:value => "naive_duplex"} Naive Duplex
-      %option{:value => "better_duplex"} Better Duplex
-      %option{:value => "best_duplex"} Best Duplex
-      
-      
-  %br
-  %br
-  %br
-  .create-dropbox.awesome.blue.huge
+  .create-dropbox.awesome.blue.huge{:style => "margin-left: 30px;"}
     Pack My Dropbox
-#displaybox{:style => "float: left; position: relative; left: 20px;"}
+#displaybox{:style => "margin-left: 20px"}
 
 :javascript
   $(document).ready(function(){

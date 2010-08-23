@@ -1,12 +1,23 @@
-.overlay{:style => "width: #{@dropbox.width}px; height: #{@dropbox.height}px;"}
--@dropbox.boxes.each_with_index do |box, i|
-  .box{:style => "left: #{box.x}px; top: #{box.y}px; width: #{box.width}px; height: #{box.height}px; background:##{rand(8).to_s(16)+rand(16).to_s(16)+rand(16).to_s(16)}"}
-.note{:style => "left: #{@dropbox.width+20}px; top: 0; color: #{@dropbox.collision? ? "red" : "#333"}"}
-  -if @dropbox.collision?
-    %h2= "Error: Collision Detected." 
-  Sum of Box Sizes: #{@dropbox.absolute_area}
-  %br
-  Actual Dropbox Size: #{@dropbox.actual_area}
-  %br
-  Waste: #{@dropbox.actual_area-@dropbox.absolute_area}
-  (#{"%0.2f" % ((1-(@dropbox.absolute_area.to_f/@dropbox.actual_area))*100)}%)
+-[:y_stack, :naive_duplex, :better_duplex, :best_duplex, :skinny_triplex].each do |method|
+  -@dropbox.calculate_best_fill(method)
+  .method{:style => "width: 210px; height: #{@dropbox.height + 185}px; overflow: auto; float: left; "}
+    .note{:style => " color: #{@dropbox.collision? ? "red" : "#333"}; font-size: 75%"}
+      %b{:style => 'font-size: 125%'}= method.to_s.split("_").map{|w| w.capitalize}.join(" ")
+      %br
+      -if @dropbox.collision?
+        %h2= "Error: Collision Detected." 
+      Sum of Box Sizes: <b>#{@dropbox.absolute_area}</b>
+      %br
+      Dropbox Size: <b>#{@dropbox.actual_area}</b>
+      %br
+      Dropox Width: <b>#{@dropbox.width}</b>
+      %br
+      Dropbox Height: <b>#{@dropbox.height}</b>
+      %br
+      Waste: <b>#{@dropbox.actual_area-@dropbox.absolute_area}
+      (#{"%0.2f" % ((1-(@dropbox.absolute_area.to_f/@dropbox.actual_area))*100)}%)</b>
+    .packdisplay{:style => "float: left; position: relative; left: 20px;"}
+      .overlay{:style => "width: #{@dropbox.width}px; height: #{@dropbox.height}px;"}
+      -@dropbox.boxes.each_with_index do |box, i|
+        .box{:style => "left: #{box.x}px; top: #{box.y}px; width: #{box.width}px; height: #{box.height}px; background:##{rand(8).to_s(16)+rand(16).to_s(16)+rand(16).to_s(16)}"}
+    
