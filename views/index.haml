@@ -1,5 +1,31 @@
-%h1 Pack a dropbox
-%h3 Add a return-separated list of box dimensions
+.pack{:style => "float: left; width: 250px; height: 400px; margin: 0; padding: 20px; background: #F8F8F8"}
+  %h1 Pack a dropbox
+  
+  
+  %textarea#box-input{:rows => 10, :cols => 6}
+    -100.times do
+      = (rand(100)+1).to_s + " " + (rand(100)+1).to_s
+      
+  .type
+    %label Pack Type
+    %select#pack-type{:name => "type"}
+      %option{:value => "x_stack"} X Stack
+      %option{:value => "y_stack"} Y Stack
+      %option{:value => "naive_duplex"} Naive Duplex
+      %option{:value => "better_duplex"} Better Duplex
+      %option{:value => "best_duplex"} Best Duplex
+      
+      
+  %br
+  %br
+  %br
+  .create-dropbox.awesome.blue.huge
+    Pack My Dropbox
+#displaybox{:style => "float: left; position: relative; left: 20px;"}
 
-%textarea{:rows => 20, :cols => 10}
-
+:javascript
+  $(document).ready(function(){
+    $(".create-dropbox").click(function(){
+      $.get(('/displaybox?type='+($('#pack-type').val())+'&text='+$("#box-input").val().replace(/\n/gi, "LB")), function(data) {$('#displaybox').html(data);});
+    });
+  });

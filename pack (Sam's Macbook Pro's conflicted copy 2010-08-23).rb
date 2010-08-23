@@ -79,7 +79,7 @@ class Dropbox
       @boxes.each{|b| b.x = nil; b.y = nil}
       by_width = @boxes.sort_by{|box| box.width * -1}
       max = by_width.first.width.to_f
-      sorted = by_width.sort_by{|box| by_width.map{|b| ((b.width - box.height + max/8).abs * 20) + (((box.width + b.height) - max).abs * 10)}.min}
+      sorted = by_width.sort_by{|box| by_width.map{|b| ((b.width - box.height + max/8).abs * 10) + (((box.width + b.height) - max).abs * 10)}.min}
       sorted.each_with_index do |box, i|
         next unless box.x.nil?
         box.x, box.y = 0, @height

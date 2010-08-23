@@ -1,3 +1,10 @@
+.overlay{:style => "width: #{@dropbox.width}px; height: #{@dropbox.height}px;"}
 -@dropbox.boxes.each_with_index do |box, i|
-  -vertex = @dropbox.vertices[i]
-  .box{:style => "top: #{vertex[0]}; :left => #{vertex[1]}; width: #{box.width}; height: #{box.height}"}= i
+  .box{:style => "left: #{box.x}px; top: #{box.y}px; width: #{box.width}px; height: #{box.height}px; background:##{rand(8).to_s(16)+rand(16).to_s(16)+rand(16).to_s(16)}"}
+.note{:style => "left: 0; top: #{@dropbox.height+20}px;"}
+  Sum of Box Sizes: #{@dropbox.absolute_area}
+  %br
+  Actual Dropbox Size: #{@dropbox.actual_area}
+  %br
+  Waste: #{@dropbox.actual_area-@dropbox.absolute_area}
+  (#{"%0.2f" % ((1-(@dropbox.absolute_area.to_f/@dropbox.actual_area))*100)}%)
