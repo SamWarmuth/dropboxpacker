@@ -1,7 +1,9 @@
 .overlay{:style => "width: #{@dropbox.width}px; height: #{@dropbox.height}px;"}
 -@dropbox.boxes.each_with_index do |box, i|
   .box{:style => "left: #{box.x}px; top: #{box.y}px; width: #{box.width}px; height: #{box.height}px; background:##{rand(8).to_s(16)+rand(16).to_s(16)+rand(16).to_s(16)}"}
-.note{:style => "left: 0; top: #{@dropbox.height+20}px;"}
+.note{:style => "left: #{@dropbox.width+20}px; top: 0; color: #{@dropbox.collision? ? "red" : "#333"}"}
+  -if @dropbox.collision?
+    %h2= "Error: Collision Detected." 
   Sum of Box Sizes: #{@dropbox.absolute_area}
   %br
   Actual Dropbox Size: #{@dropbox.actual_area}

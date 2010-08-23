@@ -20,6 +20,5 @@ get "/displaybox" do
   end
   return "error." if error
   @dropbox.calculate_best_fill(params[:type].to_sym)
-  puts @dropbox.collision?
   haml :boxdisplay, :layout => false
 end
