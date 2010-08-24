@@ -150,7 +150,7 @@ class Dropbox
       skinny_height = 0
 
       by_width.sort_by{|b| 1/(b.height / b.width.to_f)}.reverse.each do |box|
-        break if (skinny_height + box.height) > (total_height / (columns-1))
+        break if (skinny_height + box.height) > (total_height*0.95 / (columns-1))
         box.width, box.height = box.height, box.width
         box.x, box.y = 0, skinny_height
         @width = box.width if box.width > @width
@@ -167,7 +167,7 @@ class Dropbox
         by_width.each_with_index do |box, i|
           iterations += 1
           #puts "bh #{box.height} - @h #{@height} - th #{total_height} - col-1 #{columns-1}"
-          if ((box.height + @height) > (total_height/(columns-1))) && iterations < 300
+          if ((box.height + @height) > ((total_height*1.02)/(columns-1))) && iterations < 300
             offset = @width
             max_height = @height if @height > max_height
             @height = 0
