@@ -8,5 +8,14 @@ number_of_boxes.times do
   next if (a.nil? || b.nil?)
   area = a*b
   db.boxes << ((a > b ? Box.new(a,b) : Box.new(b,a)))
+end 
+
+best = 1.0/0
+[:stack, :stack_foldback, :foldback_skinny_settle, :reversing_skinny_settle, :conservative_duplex, :presort_duplex, :dual_rotate_duplex, :skinny_triplex].each do |method|
+  db.calculate_best_fill(method)
+  
+  if db.actual_area < best
+    best = db.actual_area
+  end
 end
-puts db.calculate_best_fill(:presort_duplex).actual_area.to_s
+puts best
