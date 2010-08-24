@@ -1,5 +1,3 @@
-#!/usr/bin/ruby
-
 require 'pack'
 
 number_of_boxes = gets.to_i
@@ -11,4 +9,4 @@ number_of_boxes.times do
   area = a*b
   db.boxes << ((a > b ? Box.new(a,b) : Box.new(b,a)))
 end
-puts db.calculate_best_fill(:best_duplex).actual_area.to_s
+puts db.calculate_best_fill(:presort_duplex).actual_area.to_s

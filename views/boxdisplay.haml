@@ -1,8 +1,10 @@
--[:y_stack, :naive_duplex, :better_duplex, :best_duplex, :skinny_triplex].each do |method|
+-[:stack, :stack_foldback, :foldback_with_skinny, :foldback_skinny_settle, :reversing_skinny_settle, :naive_duplex, :conservative_duplex, :presort_duplex, :dual_rotate_duplex, :skinny_triplex].each do |method|
+  -time = Time.now
   -@dropbox.calculate_best_fill(method)
-  .method{:style => "width: 210px; height: #{@dropbox.height + 185}px; overflow: auto; float: left; "}
+  -time = Time.now - time
+  .method{:style => "display: inline-block; width: #{[@dropbox.width+40, 260].max}px; height: #{@dropbox.height + 185}px; overflow: auto; "}
     .note{:style => " color: #{@dropbox.collision? ? "red" : "#333"}; font-size: 75%"}
-      %b{:style => 'font-size: 125%'}= method.to_s.split("_").map{|w| w.capitalize}.join(" ")
+      %b{:style => 'font-size: 110%'}= method.to_s.split("_").map{|w| w.capitalize}.join(" ") + " (#{time}s)"
       %br
       -if @dropbox.collision?
         %h2= "Error: Collision Detected." 
@@ -14,8 +16,9 @@
       %br
       Dropbox Height: <b>#{@dropbox.height}</b>
       %br
-      Waste: <b>#{@dropbox.actual_area-@dropbox.absolute_area}
-      (#{"%0.2f" % ((1-(@dropbox.absolute_area.to_f/@dropbox.actual_area))*100)}%)</b>
+      -waste = @dropbox.actual_area-@dropbox.absolute_area
+      Waste: <b>#{waste}
+      (#{"%0.2f" % ((waste.to_f/@dropbox.actual_area)*100)}%)</b>
     .packdisplay{:style => "float: left; position: relative; left: 20px;"}
       .overlay{:style => "width: #{@dropbox.width}px; height: #{@dropbox.height}px;"}
       -@dropbox.boxes.each_with_index do |box, i|
