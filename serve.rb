@@ -1,7 +1,8 @@
-require 'rubygems'
-require 'sinatra'
-require 'haml'
-require 'pack'
+require "rubygems"
+require "haml"
+require "sass"
+require "sinatra"
+require "pack"
 
 get "/" do
   haml :index
