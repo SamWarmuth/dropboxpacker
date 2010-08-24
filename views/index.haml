@@ -1,25 +1,37 @@
-.pack{:style => "width: 100%-1px; height: 20px; margin: 0; padding: 15px; background: #F8F8F8; text-align: center"}
+.pack
   %form
     Pack a Dropbox with
-    %input#number{:type => "text", :size => 4, :value => rand(99)+1}
-    boxes with values between
+    %input#number{:type => "text", :size => 4, :value => rand(80)+20}
+    files with values between
     %input#min{:type => "text", :size => 4, :value => '1'}
     and
     %input#max{:type => "text", :size => 4, :value => '100'}
     
-    /
-      %textarea#box-input{:rows => 5, :cols => 10, :style => 'display: inline; vertical-align: top;'}
-        -100.times do
-          = (rand(30)+1).to_s + " " + (rand(30)+1).to_s
-    %input.create-dropbox.awesome.blue{:style => "margin-left: 30px;position: relative; top: -2px", :type => "submit", :value => "Pack My Dropbox"}
-#displaybox{:style => "width: 100%-10px; height: 50%; padding: 18px; margin: auto; white-space: nowrap; overflow: auto; border: 2px solid #CCC"} 
+    %input.create-dropbox.awesome.blue{:type => "submit", :value => "Pack My Dropbox"}
+    &nbsp; or use &nbsp; 
+    %input.show-custom.awesome.orange{:type => "submit", :value => "Custom Input"}
+    
+#custom{:style => "position: absolute; top: 50px; left: 50%; margin-left: 295px; padding: 10px; background: #fff; border: 2px solid #888; z-index: 1000; display: none;"}
+  %textarea#box-input{:rows => 25, :cols => 10, :style => 'display: inline; vertical-align: top;'}
+    -100.times do
+      = "#{(rand(50)+1).to_s} #{(rand(50)+1).to_s}"
+  %br
+  %input#custom-pack.awesome.blue{:type => "submit", :value => "Pack Dropbox"}
+
+#displaybox
 
 :javascript
   $(document).ready(function(){
     $.get(('/displaybox?number='+$("#number").val()+"&min="+$("#min").val()+"&max="+$("#max").val()), function(data) {$('#displaybox').html(data);});
     $(".create-dropbox").click(function(){
-      //$.get(('/displaybox?text='+$("#box-input").val().replace(/\n/gi, "LB")), function(data) {$('#displaybox').html(data);});
       $.get(('/displaybox?number='+$("#number").val()+"&min="+$("#min").val()+"&max="+$("#max").val()), function(data) {$('#displaybox').html(data);});
       return false;
+    });
+    $(".show-custom").click(function(){
+      $("#custom").toggle();
+      return false;
+    });
+    $("#custom-pack").click(function(){
+      $.get(('/displaybox?text='+$("#box-input").val().replace(/\n/gi, "LB")), function(data) {$('#displaybox').html(data);});
     });
   });

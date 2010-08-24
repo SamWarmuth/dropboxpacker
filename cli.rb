@@ -6,8 +6,7 @@ db = Dropbox.new
 number_of_boxes.times do
   a , b = gets.split(" ").map{|n| n.to_i}
   next if (a.nil? || b.nil?)
-  area = a*b
-  db.boxes << ((a > b ? Box.new(a,b) : Box.new(b,a)))
+  db.add_box(a > b ? Box.new(a,b) : Box.new(b,a))
 end 
 
 best = 1.0/0

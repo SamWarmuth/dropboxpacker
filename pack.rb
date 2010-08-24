@@ -332,7 +332,7 @@ class Box
   attr_accessor :width, :height, :x, :y
   def ==(other_box)
     return false if other_box.nil?
-    return true if (@width == other_box.width && @height == other_box.height)
+    return true if (@width == other_box.width && @height == other_box.height) || (@width == other_box.height && @height == other_box.width)
     return false
   end
   def initialize(width,height)
