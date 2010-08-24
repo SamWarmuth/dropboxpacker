@@ -11,7 +11,7 @@
     &nbsp; or use &nbsp; 
     %input.show-custom.awesome.orange{:type => "submit", :value => "Custom Input"}
     
-#custom{:style => "position: absolute; top: 50px; left: 50%; margin-left: 295px; padding: 10px; background: #fff; border: 2px solid #888; z-index: 1000; display: none;"}
+#custom{:style => "position: absolute; top: 51px; left: 50%; margin-left: 295px; padding: 10px; background: #fff; border: 2px solid #888; z-index: 250; display: none;"}
   %textarea#box-input{:rows => 25, :cols => 10, :style => 'display: inline; vertical-align: top;'}
     -100.times do
       = "#{(rand(50)+1).to_s} #{(rand(50)+1).to_s}"
@@ -28,7 +28,12 @@
       return false;
     });
     $(".show-custom").click(function(){
-      $("#custom").toggle();
+      if ($("#custom").is(":visible")){
+        $("#custom").hide("slide", { direction: "up" });
+      } else{
+        $("#custom").show("slide", { direction: "up" });
+      }
+      
       return false;
     });
     $("#custom-pack").click(function(){
