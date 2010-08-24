@@ -24,6 +24,9 @@ class Dropbox
   def add_box(box)
     @boxes << box if @boxes.find{|b| b == box}.nil?
   end
+  def waste
+    ((@actual_area-@absolute_area)/@actual_area.to_f)*100
+  end
   def calculate_best_fill(method)
     @width = 0
     @height = 0
@@ -121,15 +124,15 @@ class Dropbox
         end
         box.x, box.y = offset, @height
         jump = max/10
-        while (collision?(box) == false)
+        while (collision?(box) == false) && (box.x > 0)
           box.x -= jump
         end
         box.x += jump
-        while (collision?(box) == false)
+        while (collision?(box) == false) && (box.x > 0)
           box.x -= 4
         end
         box.x += 4
-        while (collision?(box) == false)
+        while (collision?(box) == false) && (box.x > 0)
           box.x -= 1
         end
         box.x += 1
@@ -139,7 +142,6 @@ class Dropbox
       @height = max_height if max_height > @height
     when :reversing_skinny_settle
       columns = 4
-      puts "col: #{columns}"
       total_height = @boxes.inject(0){|sum, box| sum + box.height}
 
 
@@ -148,7 +150,7 @@ class Dropbox
       skinny_height = 0
 
       by_width.sort_by{|b| 1/(b.height / b.width.to_f)}.reverse.each do |box|
-        break if (skinny_height+box.height) > (total_height / (columns-1))
+        break if (skinny_height + box.height) > (total_height / (columns-1))
         box.width, box.height = box.height, box.width
         box.x, box.y = 0, skinny_height
         @width = box.width if box.width > @width
@@ -160,12 +162,16 @@ class Dropbox
 
       offset = skinny_width
       max_height = skinny_height
+      iterations = 0
       while !by_width.empty?
         by_width.each_with_index do |box, i|
-          if (@height > (total_height/(columns-1)))
+          iterations += 1
+          #puts "bh #{box.height} - @h #{@height} - th #{total_height} - col-1 #{columns-1}"
+          if ((box.height + @height) > (total_height/(columns-1))) && iterations < 300
             offset = @width
             max_height = @height if @height > max_height
             @height = 0
+            by_width = by_width.find_all{|b| b.x.nil?}
             retry
           end
           box.x, box.y = offset, @height
@@ -281,6 +287,9 @@ class Dropbox
     when :skinny_triplex
       max = by_width.first.width.to_f
       by_width.each{|b| b.x = -1 if b.height < b.width / 10.0}
+      if by_width.find_all{|b| b.x.nil?}.empty? #all of them are skinny. Bail.
+        by_width.each{|b| b.x = nil}
+      end
       max = by_width.find_all{|b| b.x.nil?}.first.width.to_f
       skinny_width = 0
       skinny_height = 0
